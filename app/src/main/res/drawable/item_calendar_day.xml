@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:padding="2dp">
+
+    <TextView
+        android:id="@+id/dayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="26"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="@drawable/day_background_default"
+        android:textColor="@android:color/black" />
+
+</FrameLayout>

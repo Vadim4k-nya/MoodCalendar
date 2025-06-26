@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Верхняя часть со смайликом и названием месяца -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/moodEmojiImageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_neutral_emoji"
+            android:contentDescription="Overall Mood Emoji" />
+
+        <TextView
+            android:id="@+id/currentMonthYearTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Июнь 2025"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/prevMonthButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&lt; Предыдущий"
+                android:layout_marginEnd="16dp"/>
+
+            <Button
+                android:id="@+id/nextMonthButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Следующий &gt;"
+                android:layout_marginStart="16dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Нижняя часть с календарем -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <!-- Дни недели -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="7">
+
+            <TextView style="@style/CalendarDayOfWeek" android:text="ПН" />
+            <TextView style="@style/CalendarDayOfWeek" android:text="ВТ" />
+            <TextView style="@style/CalendarDayOfWeek" android:text="СР" />
+            <TextView style="@style/CalendarDayOfWeek" android:text="ЧТ" />
+            <TextView style="@style/CalendarDayOfWeek" android:text="ПТ" />
+            <TextView style="@style/CalendarDayOfWeek" android:text="СБ" />
+            <TextView style="@style/CalendarDayOfWeek" android:text="ВС" />
+        </LinearLayout>
+
+        <!-- Календарная сетка (GridLayout для динамической генерации) -->
+        <GridLayout
+            android:id="@+id/calendarGridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="7"
+            android:rowCount="6" /> <!-- Максимум 6 недель в месяце -->
+
+    </LinearLayout>
+
+</LinearLayout>
