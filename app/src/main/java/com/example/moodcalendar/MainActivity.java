@@ -95,9 +95,7 @@ public class MainActivity extends AppCompatActivity {
         for (Date day : daysInMonth) {
             TextView dayTextView = new TextView(this);
             // Применяем стиль CalendarDay
-            TypedValue typedValue = new TypedValue();
-            getTheme().resolveAttribute(android.R.attr.textViewStyle, typedValue, true);
-            dayTextView.setTextAppearance(this, typedValue.resourceId);
+            dayTextView.setTextAppearance(this, R.style.CalendarDay);
             dayTextView.setGravity(Gravity.CENTER);
             dayTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             dayTextView.setText("26"); // Временный текст, будет обновлен
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             calendarGridLayout.addView(dayTextView);
         }
         // Обновляем общий смайлик для месяца
-        updateOverallMoodEmoji();
+        updateCurrentDayMoodEmoji();
     }
 
 
@@ -193,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics())); // 4dp radius
-        drawable.setStroke((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()), Color.parseColor("#CCCCCC")); // 1dp stroke
 
         if (moodLevel >= 0 && moodLevel < moodColors.length) {
             drawable.setColor(moodColors[moodLevel]);
@@ -204,53 +201,26 @@ public class MainActivity extends AppCompatActivity {
         dayTextView.setBackground(drawable);
     }
 
-    // Обновляет смайлик в верхней части экрана на основе среднего настроения за месяц
-    private void updateOverallMoodEmoji() {
-        int totalMood = 0;
-        int moodCount = 0;
+    // Обновляет смайлик в верхней части экрана на основе настроения текущего дня
+    private void updateCurrentDayMoodEmoji() {
+        Calendar today = Calendar.getInstance();
+        // Убедимся, что сравниваем только дату (год, месяц, день)
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
 
-        // Определяем начало и конец текущего месяца для запроса к SharedPreferences
-        Calendar startOfMonth = (Calendar) currentCalendar.clone();
-        startOfMonth.set(Calendar.DAY_OF_MONTH, 1);
-        startOfMonth.set(Calendar.HOUR_OF_DAY, 0);
-        startOfMonth.set(Calendar.MINUTE, 0);
-        startOfMonth.set(Calendar.SECOND, 0);
-        startOfMonth.set(Calendar.MILLISECOND, 0);
-
-        Calendar endOfMonth = (Calendar) currentCalendar.clone();
-        endOfMonth.set(Calendar.DAY_OF_MONTH, endOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
-        endOfMonth.set(Calendar.HOUR_OF_DAY, 23);
-        endOfMonth.set(Calendar.MINUTE, 59);
-        endOfMonth.set(Calendar.SECOND, 59);
-        endOfMonth.set(Calendar.MILLISECOND, 999);
-
-        // Итерируем по всем дням месяца, чтобы собрать настроения
-        Calendar tempCal = (Calendar) startOfMonth.clone();
-        while (tempCal.getTimeInMillis() <= endOfMonth.getTimeInMillis()) {
-            int mood = sharedPreferences.getInt("mood_" + tempCal.getTimeInMillis(), -1);
-            if (mood != -1) {
-                totalMood += mood;
-                moodCount++;
-            }
-            tempCal.add(Calendar.DAY_OF_MONTH, 1);
-        }
-
-        if (moodCount == 0) {
-            moodEmojiImageView.setImageResource(R.drawable.ic_neutral_emoji); // Если нет данных, показываем нейтральный
-            return;
-        }
-
-        // Вычисляем среднее настроение
-        int averageMood = totalMood / moodCount;
+        // Получаем настроение для текущего дня
+        int mood = sharedPreferences.getInt("mood_" + today.getTimeInMillis(), -1);
 
         // Устанавливаем соответствующий смайлик
-        switch (averageMood) {
+        switch (mood) {
             case 0: moodEmojiImageView.setImageResource(R.drawable.ic_very_sad_emoji); break;
             case 1: moodEmojiImageView.setImageResource(R.drawable.ic_sad_emoji); break;
             case 2: moodEmojiImageView.setImageResource(R.drawable.ic_neutral_emoji); break;
             case 3: moodEmojiImageView.setImageResource(R.drawable.ic_happy_emoji); break;
             case 4: moodEmojiImageView.setImageResource(R.drawable.ic_very_happy_emoji); break;
-            default: moodEmojiImageView.setImageResource(R.drawable.ic_neutral_emoji); break;
+            default: moodEmojiImageView.setImageResource(R.drawable.ic_neutral_emoji); break; // По умолчанию нейтральный
         }
     }
 }

@@ -1,91 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:background="#121212"
     tools:context=".MainActivity">
 
-    <!-- Верхняя часть со смайликом и названием месяца -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Space
+        android:id="@+id/space"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/moodEmojiImageView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:contentDescription="Overall Mood Emoji"
+        android:src="@drawable/ic_neutral_emoji"
+        app:layout_constraintBottom_toTopOf="@+id/space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/moodEmojiImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/ic_neutral_emoji"
-            android:contentDescription="Overall Mood Emoji" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space">
 
-        <TextView
-            android:id="@+id/currentMonthYearTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Июнь 2025"
-            android:textSize="24sp"
-            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="16dp">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/prevMonthButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="&lt; Предыдущий"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                android:text="&lt;" />
+
+            <TextView
+                android:id="@+id/currentMonthYearTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Июнь 2025"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/nextMonthButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Следующий &gt;"
-                android:layout_marginStart="16dp"/>
+                android:layout_marginStart="16dp"
+                android:text="&gt;" />
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <!-- Нижняя часть с календарем -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="vertical">
-
-        <!-- Дни недели -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="7">
 
-            <TextView style="@style/CalendarDayOfWeek" android:text="ПН" />
-            <TextView style="@style/CalendarDayOfWeek" android:text="ВТ" />
-            <TextView style="@style/CalendarDayOfWeek" android:text="СР" />
-            <TextView style="@style/CalendarDayOfWeek" android:text="ЧТ" />
-            <TextView style="@style/CalendarDayOfWeek" android:text="ПТ" />
-            <TextView style="@style/CalendarDayOfWeek" android:text="СБ" />
-            <TextView style="@style/CalendarDayOfWeek" android:text="ВС" />
+            <TextView
+                style="@style/CalendarDayOfWeek"
+                android:text="ПН" />
+
+            <TextView
+                style="@style/CalendarDayOfWeek"
+                android:text="ВТ" />
+
+            <TextView
+                style="@style/CalendarDayOfWeek"
+                android:text="СР" />
+
+            <TextView
+                style="@style/CalendarDayOfWeek"
+                android:text="ЧТ" />
+
+            <TextView
+                style="@style/CalendarDayOfWeek"
+                android:text="ПТ" />
+
+            <TextView
+                style="@style/CalendarDayOfWeek"
+                android:text="СБ" />
+
+            <TextView
+                style="@style/CalendarDayOfWeek"
+                android:text="ВС" />
+
+
         </LinearLayout>
 
-        <!-- Календарная сетка (GridLayout для динамической генерации) -->
         <GridLayout
             android:id="@+id/calendarGridLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:columnCount="7"
-            android:rowCount="6" /> <!-- Максимум 6 недель в месяце -->
+            android:rowCount="6"/>
 
     </LinearLayout>
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

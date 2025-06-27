@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MoodCalendar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MoodCalendar" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -27,13 +27,13 @@
     </style>
 
     <style name="CalendarDay">
-        <item name="android:layout_width">match_parent</item> <!-- Теперь match_parent, так как GridLayout управляет размером -->
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">8dp</item>
         <item name="android:background">@drawable/day_background_default</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 </resources>

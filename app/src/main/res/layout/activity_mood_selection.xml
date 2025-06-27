@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
+    android:background="#121212"
     tools:context=".MoodSelectionActivity">
 
     <TextView
