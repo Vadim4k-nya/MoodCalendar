@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,38 +14,55 @@
         android:id="@+id/selectedDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         android:text="26 Июня 2025"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginBottom="32dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/moodEmojiDisplayImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="120dp"
+        android:contentDescription="Selected Mood Emoji"
+        android:src="@drawable/ic_default_emoji"
+        app:layout_constraintBottom_toTopOf="@+id/moodSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedDateTextView" />
 
     <SeekBar
         android:id="@+id/moodSeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
         android:max="4"
         android:progress="2"
-        android:thumb="@drawable/seek_bar_thumb"
         android:progressDrawable="@drawable/seek_bar_progress"
-        android:layout_marginBottom="32dp" />
-
-    <ImageView
-        android:id="@+id/moodEmojiDisplayImageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/ic_neutral_emoji"
-        android:contentDescription="Selected Mood Emoji"
-        android:layout_marginBottom="32dp"/>
+        android:thumb="@drawable/seek_bar_thumb"
+        app:layout_constraintBottom_toTopOf="@+id/saveMoodButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/saveMoodButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Сохранить настроение"
+        android:layout_marginBottom="64dp"
         android:paddingStart="24dp"
-        android:paddingEnd="24dp"
         android:paddingTop="12dp"
+        android:paddingEnd="24dp"
         android:paddingBottom="12dp"
-        android:textSize="18sp"/>
+        android:text="Сохранить настроение"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

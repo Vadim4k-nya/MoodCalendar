@@ -125,12 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // Получаем настроение для текущего дня из SharedPreferences
                 int mood = sharedPreferences.getInt("mood_" + day.getTime(), -1);
-                if (mood != -1) {
-                    setDayBackground(dayTextView, mood);
-                } else {
-                    // Устанавливаем фон по умолчанию
-                    setDayBackground(dayTextView, -1);
-                }
+                // Устанавливаем фон по умолчанию
+                setDayBackground(dayTextView, mood);
             }
             calendarGridLayout.addView(dayTextView);
         }
