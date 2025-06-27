@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Calendar currentCalendar; // Для отслеживания текущего месяца
     private SharedPreferences sharedPreferences;
 
-    // Массив цветов настроений, инициализируется в onCreate
+    // Массив цветов настроений
     private int[] moodColors;
 
     @Override
@@ -58,17 +58,17 @@ public class MainActivity extends AppCompatActivity {
         moodColors[4] = getResources().getColor(R.color.mood_very_happy);
 
 
-        currentCalendar = Calendar.getInstance(); // Устанавливаем текущий месяц
+        currentCalendar = Calendar.getInstance(); // Устанавливака текущего месяца
         setupCalendar();
 
         // Слушатели для кнопок переключения месяцев
-        prevMonthButton.setOnClickListener(v -> {
-            currentCalendar.add(Calendar.MONTH, -1); // Переключаем на предыдущий месяц
+        nextMonthButton.setOnClickListener(v -> {
+            currentCalendar.add(Calendar.MONTH, 1); // Вперёд
             setupCalendar();
         });
 
-        nextMonthButton.setOnClickListener(v -> {
-            currentCalendar.add(Calendar.MONTH, 1); // Переключаем на следующий месяц
+        prevMonthButton.setOnClickListener(v -> {
+            currentCalendar.add(Calendar.MONTH, -1); // Назад
             setupCalendar();
         });
     }
@@ -78,18 +78,18 @@ public class MainActivity extends AppCompatActivity {
         // Очищаем все предыдущие представления из GridLayout
         calendarGridLayout.removeAllViews();
 
-        // Устанавливаем текст для текущего месяца и года (например, "Июнь 2025")
+        // Устанавливаем текст для текущего месяца и года
         SimpleDateFormat monthYearFormat = new SimpleDateFormat("MMMM yyyy", new Locale("ru", "RU"));
         currentMonthYearTextView.setText(monthYearFormat.format(currentCalendar.getTime()));
 
-        // Генерируем список объектов Date для каждого дня в текущем месяце, включая пустые ячейки для выравнивания
+        // Генерируем список объектов Date для каждого дня в текущем месяце и пустые ячейки чтоб ровно было
         List<Date> daysInMonth = generateDaysInMonth(currentCalendar);
 
-        // Определяем ширину ячейки, чтобы они равномерно распределялись по ширине
+        // Определяем ширину ячейки, чтобы они равномерно распределялись
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         // Отступы 16dp слева и справа
-        int cellWidthPx = (int) ((dpWidth - 32) / 7 * displayMetrics.density); // 32dp = 16dp padding on left + 16dp padding on right
+        int cellWidthPx = (int) ((dpWidth - 32) / 7 * displayMetrics.density);
 
         // Добавляем TextView для каждого дня в GridLayout
         for (Date day : daysInMonth) {
@@ -98,12 +98,11 @@ public class MainActivity extends AppCompatActivity {
             dayTextView.setTextAppearance(this, R.style.CalendarDay);
             dayTextView.setGravity(Gravity.CENTER);
             dayTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-            dayTextView.setText("26"); // Временный текст, будет обновлен
 
             // Установка LayoutParams для каждой ячейки
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.width = cellWidthPx;
-            params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, displayMetrics); // Высота 60dp
+            params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, displayMetrics);
             params.setMargins(2, 2, 2, 2); // Небольшие отступы между ячейками
             dayTextView.setLayoutParams(params);
 
@@ -118,24 +117,24 @@ public class MainActivity extends AppCompatActivity {
                 dayTextView.setClickable(true);
                 dayTextView.setTag(day.getTime()); // Сохраняем миллисекунды даты в теге
 
-                // Устанавливаем слушатель кликов
+                // Слушатель кликов
                 dayTextView.setOnClickListener(v -> {
                     long clickedDateMillis = (long) v.getTag();
                     onDayClick(new Date(clickedDateMillis));
                 });
 
                 // Получаем настроение для текущего дня из SharedPreferences
-                int mood = sharedPreferences.getInt("mood_" + day.getTime(), -1); // -1 если нет настроения
+                int mood = sharedPreferences.getInt("mood_" + day.getTime(), -1);
                 if (mood != -1) {
                     setDayBackground(dayTextView, mood);
                 } else {
                     // Устанавливаем фон по умолчанию
-                    setDayBackground(dayTextView, -1); // Передаем -1 для дефолтного фона
+                    setDayBackground(dayTextView, -1);
                 }
             }
             calendarGridLayout.addView(dayTextView);
         }
-        // Обновляем общий смайлик для месяца
+        // Обновляем смайл текущего дня вверху
         updateCurrentDayMoodEmoji();
     }
 
@@ -146,6 +145,12 @@ public class MainActivity extends AppCompatActivity {
         Calendar tempCalendar = (Calendar) calendar.clone();
         tempCalendar.set(Calendar.DAY_OF_MONTH, 1); // Устанавливаем на первый день месяца
 
+        // Нормализуем Calendar до начала дня (полночь)
+        tempCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        tempCalendar.set(Calendar.MINUTE, 0);
+        tempCalendar.set(Calendar.SECOND, 0);
+        tempCalendar.set(Calendar.MILLISECOND, 0);
+
         // Определяем день недели для 1-го числа (понедельник=1, воскресенье=7)
         // В Java Calendar Calendar.MONDAY = 2, Calendar.SUNDAY = 1
         int firstDayOfWeek = tempCalendar.get(Calendar.DAY_OF_WEEK);
@@ -153,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         // Если 1-е число - понедельник, смещение = 0. Если вторник, смещение = 1 и т.д.
         int dayOffset = (firstDayOfWeek == Calendar.SUNDAY) ? 6 : firstDayOfWeek - Calendar.MONDAY;
 
-        // Добавляем null-элементы для пустых ячеек (дней предыдущего месяца)
+        // Добавляем null-элементы для пустых ячеек
         for (int i = 0; i < dayOffset; i++) {
             days.add(null);
         }
@@ -172,9 +177,9 @@ public class MainActivity extends AppCompatActivity {
         if (date != null) {
             // Создаем Intent для перехода на MoodSelectionActivity
             Intent intent = new Intent(MainActivity.this, MoodSelectionActivity.class);
-            // Передаем выбранную дату в миллисекундах
+            // Передаем выбранную дату
             intent.putExtra("selected_date_millis", date.getTime());
-            startActivity(intent); // Запускаем активность
+            startActivity(intent);
         }
     }
 
@@ -182,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // Обновляем календарь при возвращении из MoodSelectionActivity
-        // Это гарантирует, что цвета ячеек обновятся после сохранения настроения
         setupCalendar();
     }
 
@@ -204,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
     // Обновляет смайлик в верхней части экрана на основе настроения текущего дня
     private void updateCurrentDayMoodEmoji() {
         Calendar today = Calendar.getInstance();
-        // Убедимся, что сравниваем только дату (год, месяц, день)
+        // Убедимся, что сравниваем только дату
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
@@ -220,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
             case 2: moodEmojiImageView.setImageResource(R.drawable.ic_neutral_emoji); break;
             case 3: moodEmojiImageView.setImageResource(R.drawable.ic_happy_emoji); break;
             case 4: moodEmojiImageView.setImageResource(R.drawable.ic_very_happy_emoji); break;
-            default: moodEmojiImageView.setImageResource(R.drawable.ic_neutral_emoji); break; // По умолчанию нейтральный
+            default: moodEmojiImageView.setImageResource(R.drawable.ic_default_emoji); break;
         }
     }
 }

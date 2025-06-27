@@ -1,4 +1,4 @@
-package com.example.moodcalendar; // Замените на имя вашего пакета
+package com.example.moodcalendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
@@ -96,19 +96,19 @@ public class MoodSelectionActivity extends AppCompatActivity {
     // Обновляет отображаемый смайлик на основе переданного уровня настроения
     private void updateMoodEmoji(int moodLevel) {
         switch (moodLevel) {
-            case 0: // Очень грустно
+            case 0:
                 moodEmojiDisplayImageView.setImageResource(R.drawable.ic_very_sad_emoji);
                 break;
-            case 1: // Грустно
+            case 1:
                 moodEmojiDisplayImageView.setImageResource(R.drawable.ic_sad_emoji);
                 break;
-            case 2: // Нейтрально
+            case 2:
                 moodEmojiDisplayImageView.setImageResource(R.drawable.ic_neutral_emoji);
                 break;
-            case 3: // Радостно
+            case 3:
                 moodEmojiDisplayImageView.setImageResource(R.drawable.ic_happy_emoji);
                 break;
-            case 4: // Очень радостно
+            case 4:
                 moodEmojiDisplayImageView.setImageResource(R.drawable.ic_very_happy_emoji);
                 break;
         }
@@ -119,7 +119,7 @@ public class MoodSelectionActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         // Сохраняем настроение по ключу, связанному с датой
         editor.putInt("mood_" + selectedDateMillis, currentMoodLevel);
-        editor.apply(); // Применяем изменения
+        editor.apply();
 
         Toast.makeText(this, "Настроение сохранено!", Toast.LENGTH_SHORT).show();
         finish(); // Закрываем текущую активность и возвращаемся к предыдущей
