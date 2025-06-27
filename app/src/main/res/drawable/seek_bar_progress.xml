@@ -11,9 +11,9 @@
             <shape android:shape="rectangle">
                 <corners android:radius="5dp"/>
                 <gradient
-                    android:startColor="#C198F4"
-                    android:centerColor="#C8D3DE"
-                    android:endColor="#FFE57D"/>
+                    android:startColor="@color/mood_very_sad"
+                    android:centerColor="@color/mood_neutral"
+                    android:endColor="@color/mood_very_happy"/>
             </shape>
         </clip>
     </item>
